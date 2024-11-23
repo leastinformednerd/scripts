@@ -1,0 +1,38 @@
+#!/bin/sh
+SEARCH_PATH="${SEARCH_PATH:-`realpath ~`}"
+search()
+{
+    choice_=$(ls -a "$1" | dmenu -i )
+    if [ ! "$choice_" ]; then
+        exit
+    fi
+
+    choice=""
+    for c in $choice_; do 
+        choice=$(echo $choice $c " ")
+    done
+
+    choice=$(echo "$choice" | xargs)
+
+    if [ "$choice" = "." ]; then
+        echo "$1"
+        exit
+    fi
+
+
+    if [ -d "$1/$choice" ]; then
+        search "$1/${choice}"
+    else
+        echo "$1/${choice}"
+    fi
+}
+
+exe=$(dmenu_path | dmenu)
+echo "exe = $exe"
+if [ -x "`which $exe`" ]; then
+    target="$(search $SEARCH_PATH)"
+    echo "target = $target"
+    "$exe" "$target"
+else
+    echo "$exe is not an executable"
+fi

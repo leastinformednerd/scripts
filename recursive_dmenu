@@ -1,0 +1,36 @@
+#!/bin/bash
+SEARCH_PATH="${SEARCH_PATH:-`realpath ~`}"
+TTY=${TTY:-alacritty}
+EDITOR="${EDITOR:-nvim}"
+
+search()
+{
+    choice_=$(ls -a "$1" | dmenu -i )
+    if [ ! "$choice_" ]; then
+        exit
+    fi
+
+    choice=""
+    for c in $choice_; do 
+        choice=$(echo $choice $c " ")
+    done
+
+    choice=$(echo "$choice" | xargs)
+    echo $choice
+
+    if [ "$choice" = "." ]; then
+        $TTY --working-directory $1
+        exit
+    fi
+
+    echo "$1/$choice" \"
+
+    if [ -d "$1/$choice" ]; then
+        search "$1/${choice}"
+    else
+        echo $TTY --working-directory $1 -e bash --rcfile <(echo ". ~/.bashrc; $EDITOR \"$1/$choice\"")
+        $TTY --working-directory "$1" -e bash --rcfile <(echo ". ~/.bashrc; $EDITOR \"$1/$choice\"")
+    fi
+}
+
+search $SEARCH_PATH
