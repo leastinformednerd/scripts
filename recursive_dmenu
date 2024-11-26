@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 SEARCH_PATH="${SEARCH_PATH:-`realpath ~`}"
 TTY=${TTY:-alacritty}
 EDITOR="${EDITOR:-nvim}"

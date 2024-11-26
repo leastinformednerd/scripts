@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 cat <(while cat "$1"; do :; done) | paplay --channel-map=front-left,rear-left &
 cat <(while cat "$2"; do :; done) | paplay --channel-map=front-right,rear-right &
 

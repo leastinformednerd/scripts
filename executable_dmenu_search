@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 SEARCH_PATH="${SEARCH_PATH:-`realpath ~`}"
 search()
 {
