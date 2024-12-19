@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+i3-msg exec "alacritty --working-directory $PWD" >> /dev/null
+sleep 0.1
+i3-msg focus left >> /dev/null
